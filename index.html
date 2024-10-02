@@ -49,28 +49,21 @@
     </div>
 
     <script>
-        // Retrieve correctCode, documentUrl, and token from query parameters
+        // Retrieve correctCode and documentUrl from query parameters
         const urlParams = new URLSearchParams(window.location.search);
         const correctCode = urlParams.get('code');
-        const documentUrl = urlParams.get('documentUrl');
-        const token = urlParams.get('token'); // Expecting token in query params
+        const documentUrl = urlParams.get('documentUrl'); // Full URL, including token if present
 
         function verifyCode() {
             const enteredCode = document.getElementById('accessCode').value.trim();
             const messageElement = document.getElementById('message');
 
-            // If code matches, open the document with the token if available
+            // Check if the entered code matches the correct code
             if (enteredCode === correctCode) {
                 messageElement.innerHTML = `<span class="success">Code accepted! Redirecting to your document...</span>`;
-                
-                // Reconstruct the full URL including the token if available
-                let fullDocumentUrl = documentUrl;
-                if (token) {
-                    fullDocumentUrl += `&token=${token}`;
-                }
 
-                // Open the document URL in a new tab
-                window.open(fullDocumentUrl, '_blank');
+                // Open the document URL in a new tab (with the token included)
+                window.open(documentUrl, '_blank');
             } else {
                 messageElement.textContent = 'Incorrect code. Please try again.';
                 messageElement.className = 'error';
