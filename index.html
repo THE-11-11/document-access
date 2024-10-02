@@ -66,7 +66,7 @@
                 messageElement.innerHTML = `<span class="success">Code accepted! Redirecting to your document...</span>`;
 
                 // Open the document URL in a new tab
-                window.open(documentUrl, '_blank');
+                window.open(documentUrl, '_blank'); // Ensure full URL is used
             } else {
                 messageElement.textContent = 'Incorrect code. Please try again.';
                 messageElement.className = 'error';
