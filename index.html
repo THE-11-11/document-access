@@ -45,25 +45,17 @@
     </div>
 
     <script>
+        // Retrieve correctCode and documentUrl from query parameters
         const correctCode = new URLSearchParams(window.location.search).get('code');
         const documentUrl = new URLSearchParams(window.location.search).get('documentUrl');
-        const errorElement = document.getElementById('error');
 
         function verifyCode() {
             const enteredCode = document.getElementById('accessCode').value.trim();
+            const errorElement = document.getElementById('error');
 
-            if (!correctCode || !documentUrl) {
-                errorElement.textContent = 'Invalid link. Code or document URL is missing.';
-                return;
-            }
-
+            // If code matches, redirect to document URL, else show error
             if (enteredCode === correctCode) {
-                try {
-                    const encodedUrl = decodeURIComponent(documentUrl); // Decode in case URL is encoded
-                    window.location.href = encodedUrl; // Redirect to the document URL
-                } catch (error) {
-                    errorElement.textContent = 'Failed to open the document. Invalid URL format.';
-                }
+                window.location.href = documentUrl; // Redirect to document
             } else {
                 errorElement.textContent = 'Incorrect code. Please try again.';
             }
