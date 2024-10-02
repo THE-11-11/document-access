@@ -65,8 +65,18 @@
             if (enteredCode === correctCode) {
                 messageElement.innerHTML = `<span class="success">Code accepted! Redirecting to your document...</span>`;
 
+                // Explicitly construct the document URL with token
+                const baseDocumentUrl = documentUrl.split('?')[0]; // Get the base URL without any query parameters
+                const queryParams = new URLSearchParams(documentUrl.split('?')[1]); // Get the existing query parameters
+                const token = queryParams.get('token'); // Extract the token
+                
+                // Construct the final document URL
+                const finalDocumentUrl = `${baseDocumentUrl}?alt=media&token=${token}`;
+                
+                console.log("Final Document URL:", finalDocumentUrl); // Debug: Log the final document URL
+                
                 // Open the document URL in a new tab
-                window.open(documentUrl, '_blank'); // Ensure the full URL with token is used
+                window.open(finalDocumentUrl, '_blank'); // Ensure the full URL with token is used
             } else {
                 messageElement.textContent = 'Incorrect code. Please try again.';
                 messageElement.className = 'error';
