@@ -52,7 +52,10 @@
         // Retrieve correctCode and documentUrl from query parameters
         const urlParams = new URLSearchParams(window.location.search);
         const correctCode = urlParams.get('code');
-        const documentUrl = urlParams.get('documentUrl'); // Full URL, including token if present
+        const documentUrl = decodeURIComponent(urlParams.get('documentUrl')); // Decode the URL
+
+        console.log("Correct Code:", correctCode);  // Debug: Log the correct code
+        console.log("Document URL:", documentUrl);   // Debug: Log the document URL
 
         function verifyCode() {
             const enteredCode = document.getElementById('accessCode').value.trim();
@@ -62,7 +65,7 @@
             if (enteredCode === correctCode) {
                 messageElement.innerHTML = `<span class="success">Code accepted! Redirecting to your document...</span>`;
 
-                // Open the document URL in a new tab (with the token included)
+                // Open the document URL in a new tab
                 window.open(documentUrl, '_blank');
             } else {
                 messageElement.textContent = 'Incorrect code. Please try again.';
