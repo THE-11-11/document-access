@@ -47,11 +47,16 @@
     <script>
         const correctCode = new URLSearchParams(window.location.search).get('code');
         const documentUrl = new URLSearchParams(window.location.search).get('documentUrl');
+        const errorElement = document.getElementById('error');
 
         function verifyCode() {
             const enteredCode = document.getElementById('accessCode').value;
-            const errorElement = document.getElementById('error');
-            
+
+            if (!correctCode || !documentUrl) {
+                errorElement.textContent = 'Invalid link. Code or document URL is missing.';
+                return;
+            }
+
             if (enteredCode === correctCode) {
                 window.location.href = documentUrl; // Redirect to the document URL
             } else {
