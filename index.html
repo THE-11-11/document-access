@@ -50,7 +50,7 @@
         const errorElement = document.getElementById('error');
 
         function verifyCode() {
-            const enteredCode = document.getElementById('accessCode').value;
+            const enteredCode = document.getElementById('accessCode').value.trim();
 
             if (!correctCode || !documentUrl) {
                 errorElement.textContent = 'Invalid link. Code or document URL is missing.';
@@ -58,7 +58,12 @@
             }
 
             if (enteredCode === correctCode) {
-                window.location.href = documentUrl; // Redirect to the document URL
+                try {
+                    const encodedUrl = decodeURIComponent(documentUrl); // Decode in case URL is encoded
+                    window.location.href = encodedUrl; // Redirect to the document URL
+                } catch (error) {
+                    errorElement.textContent = 'Failed to open the document. Invalid URL format.';
+                }
             } else {
                 errorElement.textContent = 'Incorrect code. Please try again.';
             }
