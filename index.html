@@ -64,7 +64,16 @@
 
             // If code matches, show link to document, else show error
             if (enteredCode === correctCode) {
-                messageElement.innerHTML = `<span class="success">Code accepted! <a href="${documentUrl}" target="_blank">Click here to access the document.</a></span>`;
+                // Decode the document URL (in case it's URL-encoded)
+                const decodedUrl = decodeURIComponent(documentUrl);
+
+                // Open the document link in a new tab
+                messageElement.innerHTML = `<span class="success">Code accepted! Redirecting to the document...</span>`;
+                
+                // Redirect to the decoded document URL after 2 seconds
+                setTimeout(() => {
+                    window.open(decodedUrl, '_blank');
+                }, 2000);
             } else {
                 messageElement.textContent = 'Incorrect code. Please try again.';
                 messageElement.className = 'error';
