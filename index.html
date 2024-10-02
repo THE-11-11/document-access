@@ -37,11 +37,6 @@
             color: green;
             margin-top: 10px;
         }
-        a {
-            text-decoration: none;
-            color: blue;
-            font-weight: bold;
-        }
     </style>
 </head>
 <body>
@@ -51,31 +46,26 @@
         <input type="text" id="accessCode" placeholder="Enter code here">
         <button onclick="verifyCode()">Submit</button>
         <p id="message"></p>
-        <p id="documentLink"></p>
     </div>
 
     <script>
         // Retrieve correctCode and documentUrl from query parameters
-        const correctCode = new URLSearchParams(window.location.search).get('code');
-        const documentUrl = new URLSearchParams(window.location.search).get('documentUrl');
+        const urlParams = new URLSearchParams(window.location.search);
+        const correctCode = urlParams.get('code');
+        const documentUrl = urlParams.get('documentUrl');
 
         function verifyCode() {
             const enteredCode = document.getElementById('accessCode').value.trim();
             const messageElement = document.getElementById('message');
-            const documentLinkElement = document.getElementById('documentLink');
 
-            // If code matches, display the link to the document, else show error
+            // If code matches, directly open the document link
             if (enteredCode === correctCode) {
-                // Decode the document URL (in case it's URL-encoded)
-                const decodedUrl = decodeURIComponent(documentUrl);
-
-                // Display the link on the page for users to click
-                messageElement.innerHTML = `<span class="success">Code accepted! Here is your document link:</span>`;
-                documentLinkElement.innerHTML = `<a href="${decodedUrl}" target="_blank">${decodedUrl}</a>`;
+                messageElement.innerHTML = `<span class="success">Code accepted! Redirecting to your document...</span>`;
+                // Open the document URL in a new tab
+                window.open(documentUrl, '_blank');
             } else {
                 messageElement.textContent = 'Incorrect code. Please try again.';
                 messageElement.className = 'error';
-                documentLinkElement.innerHTML = ''; // Clear any previous links
             }
         }
     </script>
