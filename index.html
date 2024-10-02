@@ -33,6 +33,15 @@
             color: red;
             margin-top: 10px;
         }
+        .success {
+            color: green;
+            margin-top: 10px;
+        }
+        a {
+            text-decoration: none;
+            color: blue;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -41,7 +50,7 @@
         <p>Please enter the 4-digit code to access the document.</p>
         <input type="text" id="accessCode" placeholder="Enter code here">
         <button onclick="verifyCode()">Submit</button>
-        <p id="error" class="error"></p>
+        <p id="message"></p>
     </div>
 
     <script>
@@ -51,13 +60,14 @@
 
         function verifyCode() {
             const enteredCode = document.getElementById('accessCode').value.trim();
-            const errorElement = document.getElementById('error');
+            const messageElement = document.getElementById('message');
 
-            // If code matches, redirect to document URL, else show error
+            // If code matches, show link to document, else show error
             if (enteredCode === correctCode) {
-                window.location.href = documentUrl; // Redirect to document
+                messageElement.innerHTML = `<span class="success">Code accepted! <a href="${documentUrl}" target="_blank">Click here to access the document.</a></span>`;
             } else {
-                errorElement.textContent = 'Incorrect code. Please try again.';
+                messageElement.textContent = 'Incorrect code. Please try again.';
+                messageElement.className = 'error';
             }
         }
     </script>
