@@ -51,8 +51,8 @@
     <script>
         // Retrieve correctCode and documentUrl from query parameters
         const urlParams = new URLSearchParams(window.location.search);
-        const correctCode = urlParams.get('code');
-        const documentUrl = decodeURIComponent(urlParams.get('documentUrl')); // Decode the URL
+        const correctCode = urlParams.get('code');  // The correct code from the URL
+        const documentUrl = decodeURIComponent(urlParams.get('documentUrl')); // Decode the full document URL
 
         console.log("Correct Code:", correctCode);  // Debug: Log the correct code
         console.log("Document URL:", documentUrl);   // Debug: Log the document URL
@@ -66,7 +66,7 @@
                 messageElement.innerHTML = `<span class="success">Code accepted! Redirecting to your document...</span>`;
 
                 // Open the document URL in a new tab
-                window.open(documentUrl, '_blank'); // Ensure full URL is used
+                window.open(documentUrl, '_blank'); // Ensure the full URL with token is used
             } else {
                 messageElement.textContent = 'Incorrect code. Please try again.';
                 messageElement.className = 'error';
