@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Access</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Enter Access Code</h2>
+        <p>Please enter the 4-digit code to access the document.</p>
+        <input type="text" id="accessCode" placeholder="Enter code here">
+        <button onclick="verifyCode()">Submit</button>
+        <p id="error" class="error"></p>
+    </div>
+
+    <script>
+        const correctCode = new URLSearchParams(window.location.search).get('code');
+        const documentUrl = new URLSearchParams(window.location.search).get('documentUrl');
+
+        function verifyCode() {
+            const enteredCode = document.getElementById('accessCode').value;
+            const errorElement = document.getElementById('error');
+            
+            if (enteredCode === correctCode) {
+                window.location.href = documentUrl; // Redirect to the document URL
+            } else {
+                errorElement.textContent = 'Incorrect code. Please try again.';
+            }
+        }
+    </script>
+</body>
+</html>
