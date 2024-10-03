@@ -59,40 +59,41 @@
     </div>
 
     <script>
-    // Retrieve the correct code and document URL from query parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    const correctCode = urlParams.get('code'); // The correct access code from the URL
-    const documentUrl = urlParams.get('documentUrl'); // Get the raw document URL
+        // Retrieve the correct code and document URL from query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const correctCode = urlParams.get('code'); // The correct access code from the URL
+        const documentUrl = urlParams.get('documentUrl'); // Get the raw document URL
 
-    console.log("Correct Code:", correctCode);  // Debug: Log the correct code
-    console.log("Raw Document URL:", documentUrl);  // Debug: Log the document URL
+        console.log("Correct Code:", correctCode);  // Debug: Log the correct code
+        console.log("Raw Document URL:", documentUrl);  // Debug: Log the document URL
 
-    // Function to encode the document URL by replacing / with %2F
-    function encodeDocumentUrl(url) {
-        return url.replace(/\//g, '%2F'); // Replace all / with %2F
-    }
-
-    const encodedDocumentUrl = encodeDocumentUrl(documentUrl); // Encode the document URL
-    console.log("Encoded Document URL:", encodedDocumentUrl); // Debug: Log the encoded document URL
-
-    function verifyCode() {
-        const enteredCode = document.getElementById('accessCode').value.trim();
-        const messageElement = document.getElementById('message');
-        const documentLinkDiv = document.getElementById('documentLink');
-        const linkElement = document.getElementById('link');
-
-        // Check if the entered code matches the correct code
-        if (enteredCode === correctCode) {
-            messageElement.innerHTML = `<span class="success">Code accepted! Click the link below to access your document:</span>`;
-            linkElement.href = encodedDocumentUrl;  // Set the href to the encoded document URL
-            linkElement.textContent = documentUrl; // Display the raw URL as the link text
-            linkElement.style.display = 'inline'; // Show the link
-            documentLinkDiv.style.display = 'block'; // Show the document link section
-        } else {
-            messageElement.textContent = 'Incorrect code. Please try again.';
-            messageElement.className = 'error';
+        // Function to encode the document URL by replacing / with %2F
+        function encodeDocumentUrl(url) {
+            // Use encodeURIComponent to handle all encoding, especially for '/'
+            return encodeURIComponent(url).replace(/%2F/g, '%2F'); // Ensure all '/' are encoded
         }
-    }
+
+        const encodedDocumentUrl = encodeDocumentUrl(documentUrl); // Encode the document URL
+        console.log("Encoded Document URL:", encodedDocumentUrl); // Debug: Log the encoded document URL
+
+        function verifyCode() {
+            const enteredCode = document.getElementById('accessCode').value.trim();
+            const messageElement = document.getElementById('message');
+            const documentLinkDiv = document.getElementById('documentLink');
+            const linkElement = document.getElementById('link');
+
+            // Check if the entered code matches the correct code
+            if (enteredCode === correctCode) {
+                messageElement.innerHTML = `<span class="success">Code accepted! Click the link below to access your document:</span>`;
+                linkElement.href = encodedDocumentUrl;  // Set the href to the encoded document URL
+                linkElement.textContent = documentUrl; // Display the raw URL as the link text
+                linkElement.style.display = 'inline'; // Show the link
+                documentLinkDiv.style.display = 'block'; // Show the document link section
+            } else {
+                messageElement.textContent = 'Incorrect code. Please try again.';
+                messageElement.className = 'error';
+            }
+        }
     </script>
 
 </body>
