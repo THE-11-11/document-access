@@ -70,7 +70,7 @@
         // Function to encode the document URL by replacing / with %2F
         function encodeDocumentUrl(url) {
             // Use encodeURIComponent to handle all encoding, especially for '/'
-            return encodeURIComponent(url).replace(/%2F/g, '%2F'); // Ensure all '/' are encoded
+            return encodeURIComponent(url).replace(/, '%2F'); // Ensure all '/' are encoded
         }
 
         const encodedDocumentUrl = encodeDocumentUrl(documentUrl); // Encode the document URL
