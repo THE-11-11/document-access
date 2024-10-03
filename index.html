@@ -62,7 +62,7 @@
     // Retrieve the correct code and document URL from query parameters
     const urlParams = new URLSearchParams(window.location.search);
     const correctCode = urlParams.get('code'); // The correct access code from the URL
-    const documentUrl = urlParams.get('documentUrl'); // Get the document URL directly without decoding
+    const documentUrl = decodeURIComponent(urlParams.get('documentUrl')); // Decode the document URL
 
     console.log("Correct Code:", correctCode);  // Debug: Log the correct code
     console.log("Document URL:", documentUrl);  // Debug: Log the document URL
