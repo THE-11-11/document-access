@@ -65,18 +65,17 @@
         if (enteredCode === correctCode) {
             messageElement.innerHTML = `<span class="success">Code accepted! Redirecting to your document...</span>`;
             
-            // Split the URL path and query
-            const urlParts = documentUrl.split('?');
-            let path = urlParts[0];
-            const query = urlParts[1];
+            // Extract and encode only the path of the URL while leaving the query parameters intact
+            const urlParts = documentUrl.split('?');  // Split the URL into path and query parts
+            let path = urlParts[0];  // Path part of the URL
+            const query = urlParts[1]; // Query part of the URL
 
-            // Encode the path section (slashes and special characters)
-            path = encodeURIComponent(path).replace(/%2F/g, '/');
-
-            // Reconstruct the final encoded URL
-            const encodedDocumentUrl = `${path}?${query}`;
-            console.log("Encoded Document URL:", encodedDocumentUrl);
-
+            // Properly encode the slashes in the path
+            path = path.replace(/\//g, '%2F');  // Replace all slashes with %2F
+            const encodedDocumentUrl = `${path}?${query}`;  // Reconstruct the full URL
+            
+            console.log("Encoded Document URL:", encodedDocumentUrl);  // Debug: Log the encoded document URL
+            
             // Redirect to the encoded document URL with the token included
             window.location.href = encodedDocumentUrl;
         } else {
