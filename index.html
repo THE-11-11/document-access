@@ -37,6 +37,10 @@
             color: green;
             margin-top: 10px;
         }
+        .document-link {
+            margin-top: 20px;
+            display: none; /* Initially hidden */
+        }
     </style>
 </head>
 <body>
@@ -46,6 +50,12 @@
         <input type="text" id="accessCode" placeholder="Enter code here">
         <button onclick="verifyCode()">Submit</button>
         <p id="message"></p>
+        
+        <!-- Document link will be displayed here -->
+        <div id="documentLink" class="document-link">
+            <p>Click the link below to access your document:</p>
+            <a id="link" href="" target="_blank"></a>
+        </div>
     </div>
 
     <script>
@@ -60,14 +70,16 @@
     function verifyCode() {
         const enteredCode = document.getElementById('accessCode').value.trim();
         const messageElement = document.getElementById('message');
+        const documentLinkDiv = document.getElementById('documentLink');
+        const linkElement = document.getElementById('link');
 
         // Check if the entered code matches the correct code
         if (enteredCode === correctCode) {
-            messageElement.innerHTML = `<span class="success">Code accepted! Redirecting to your document...</span>`;
-            
-            // Redirect to the document URL with the token included
-            console.log("Redirecting to Document URL:", documentUrl);  // Debug: Log the URL before redirecting
-            window.location.href = documentUrl;  // Redirect to the correct document URL
+            messageElement.innerHTML = `<span class="success">Code accepted! Click the link below to access your document:</span>`;
+            linkElement.href = documentUrl;  // Set the href to the document URL
+            linkElement.textContent = documentUrl; // Display the URL as the link text
+            linkElement.style.display = 'inline'; // Show the link
+            documentLinkDiv.style.display = 'block'; // Show the document link section
         } else {
             messageElement.textContent = 'Incorrect code. Please try again.';
             messageElement.className = 'error';
