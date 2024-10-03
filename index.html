@@ -65,12 +65,12 @@
         if (enteredCode === correctCode) {
             messageElement.innerHTML = `<span class="success">Code accepted! Redirecting to your document...</span>`;
             
-            // Ensure spaces are encoded correctly and slashes remain intact
-            const encodedDocumentUrl = encodeURIComponent(documentUrl).replace(/%2F/g, '/').replace(/%20/g, ' ');
-            console.log("Encoded Document URL:", encodedDocumentUrl);  // Debug: Log the encoded document URL
+            // Fix URL: encode spaces and other unsafe characters but leave slashes and query params intact
+            const fixedDocumentUrl = documentUrl.replace(/ /g, '%20').replace(/\//g, '/');
+            console.log("Fixed Document URL:", fixedDocumentUrl);  // Debug: Log the fixed document URL
             
-            // Redirect to the properly encoded document URL with the token included
-            window.location.href = encodedDocumentUrl;
+            // Redirect to the properly formatted document URL
+            window.location.href = fixedDocumentUrl;
         } else {
             messageElement.textContent = 'Incorrect code. Please try again.';
             messageElement.className = 'error';
