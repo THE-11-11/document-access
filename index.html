@@ -49,29 +49,34 @@
     </div>
 
     <script>
-        // Retrieve the correct code and document URL from query parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const correctCode = urlParams.get('code'); // The correct access code from the URL
-        const documentUrl = decodeURIComponent(urlParams.get('documentUrl')); // Full document URL, including the token
+    // Retrieve the correct code and document URL from query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const correctCode = urlParams.get('code'); // The correct access code from the URL
+    const documentUrl = urlParams.get('documentUrl'); // Full document URL, including the token
 
-        console.log("Correct Code:", correctCode);  // Debug: Log the correct code
-        console.log("Document URL:", documentUrl);   // Debug: Log the document URL
+    console.log("Correct Code:", correctCode);  // Debug: Log the correct code
+    console.log("Document URL:", documentUrl);  // Debug: Log the document URL
 
-        function verifyCode() {
-            const enteredCode = document.getElementById('accessCode').value.trim();
-            const messageElement = document.getElementById('message');
+    function verifyCode() {
+        const enteredCode = document.getElementById('accessCode').value.trim();
+        const messageElement = document.getElementById('message');
 
-            // Check if the entered code matches the correct code
-            if (enteredCode === correctCode) {
-                messageElement.innerHTML = `<span class="success">Code accepted! Redirecting to your document...</span>`;
-                
-                // Redirect to the correct document URL with the token included
-                window.location.href = documentUrl;
-            } else {
-                messageElement.textContent = 'Incorrect code. Please try again.';
-                messageElement.className = 'error';
-            }
+        // Check if the entered code matches the correct code
+        if (enteredCode === correctCode) {
+            messageElement.innerHTML = `<span class="success">Code accepted! Redirecting to your document...</span>`;
+            
+            // Ensure that the URL is properly encoded before redirecting
+            const encodedDocumentUrl = encodeURI(documentUrl);  // Use encodeURI to properly encode the URL
+            console.log("Encoded Document URL:", encodedDocumentUrl);  // Debug: Log the encoded document URL
+            
+            // Redirect to the encoded document URL with the token included
+            window.location.href = encodedDocumentUrl;
+        } else {
+            messageElement.textContent = 'Incorrect code. Please try again.';
+            messageElement.className = 'error';
         }
-    </script>
+    }
+</script>
+
 </body>
 </html>
