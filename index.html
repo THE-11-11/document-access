@@ -67,13 +67,12 @@
         console.log("Correct Code:", correctCode);  // Debug: Log the correct code
         console.log("Raw Document URL:", documentUrl);  // Debug: Log the document URL
 
-        // Function to encode the document URL by replacing / with %2F
-        function encodeDocumentUrl(url) {
-            // Use encodeURIComponent to handle all encoding, especially for '/'
-            return encodeURIComponent(url).replace(/, '%2F'); // Ensure all '/' are encoded
+        // Function to manually replace slashes with %2F in the document URL
+        function replaceSlashes(url) {
+            return url.replace(/\//g, '%2F'); // Replace all '/' with '%2F'
         }
 
-        const encodedDocumentUrl = encodeDocumentUrl(documentUrl); // Encode the document URL
+        const encodedDocumentUrl = replaceSlashes(documentUrl); // Encode the document URL
         console.log("Encoded Document URL:", encodedDocumentUrl); // Debug: Log the encoded document URL
 
         function verifyCode() {
@@ -85,9 +84,8 @@
             // Check if the entered code matches the correct code
             if (enteredCode === correctCode) {
                 messageElement.innerHTML = `<span class="success">Code accepted! Click the link below to access your document:</span>`;
-                linkElement.href = encodedDocumentUrl;  // Set the href to the encoded document URL
-                linkElement.textContent = documentUrl; // Display the raw URL as the link text
-                linkElement.style.display = 'inline'; // Show the link
+                linkElement.href = documentUrl;  // Set the href to the original document URL
+                linkElement.textContent = documentUrl; // Display the original URL as the link text
                 documentLinkDiv.style.display = 'block'; // Show the document link section
             } else {
                 messageElement.textContent = 'Incorrect code. Please try again.';
