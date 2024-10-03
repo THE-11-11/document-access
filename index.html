@@ -69,7 +69,13 @@
 
         // Function to manually replace slashes with %2F in the document URL
         function replaceSlashes(url) {
-            return url.replace(/\//g, '%2F'); // Replace all '/' with '%2F'
+            // Replace all '/' with '%2F' only in the path part of the URL
+            return url.split('/').map((part, index) => {
+                if (index > 2) { // Ignore the first two parts (protocol and host)
+                    return encodeURIComponent(part);
+                }
+                return part;
+            }).join('/').replace(/%2F/g, '%2F'); // Ensure encoded slashes remain as '%2F'
         }
 
         const encodedDocumentUrl = replaceSlashes(documentUrl); // Encode the document URL
@@ -84,8 +90,8 @@
             // Check if the entered code matches the correct code
             if (enteredCode === correctCode) {
                 messageElement.innerHTML = `<span class="success">Code accepted! Click the link below to access your document:</span>`;
-                linkElement.href = documentUrl;  // Set the href to the original document URL
-                linkElement.textContent = documentUrl; // Display the original URL as the link text
+                linkElement.href = encodedDocumentUrl;  // Set the href to the encoded document URL
+                linkElement.textContent = encodedDocumentUrl; // Display the encoded URL as the link text
                 documentLinkDiv.style.display = 'block'; // Show the document link section
             } else {
                 messageElement.textContent = 'Incorrect code. Please try again.';
